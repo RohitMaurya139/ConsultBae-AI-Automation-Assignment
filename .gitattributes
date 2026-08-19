@@ -1,0 +1,16 @@
+# Normalize text line endings in the repo, checkout native on Windows.
+* text=auto
+
+# Never touch binaries.
+*.pdf binary
+*.db binary
+*.wav binary
+*.webm binary
+*.mp3 binary
+*.m4a binary
+*.ogg binary
+*.png binary
+*.jpg binary
+
+# CSVs are source data - keep them byte-exact so the "messy data" stays messy.
+*.csv -text
