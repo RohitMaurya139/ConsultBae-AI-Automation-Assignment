@@ -33,3 +33,6 @@ node_modules/
 # SQLite sidecar files (WAL mode)
 *.db-shm
 *.db-wal
+
+# Audio fixtures ARE committed (small, and the tests need them) - see
+# tests/fixtures/generate.js to regenerate.
