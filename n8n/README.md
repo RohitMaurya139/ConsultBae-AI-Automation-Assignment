@@ -122,5 +122,5 @@ Importing 1 workflows...
 Successfully imported 1 workflow.
 ```
 
-All 12 nodes and all 11 connections survive the import with their type-versions intact,
+All 12 nodes and all 13 connections (from 11 source nodes) survive the import with their type-versions intact,
 so the 1.x node versions in this export are accepted by n8n 2.x.

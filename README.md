@@ -183,7 +183,7 @@ downloaded, so the correct answer is known independently of the code:
 - 44.1 kHz / 16-bit / stereo WAV reads back as **exactly 1411.2 kbps**
 - RMS and peak agree with `ffmpeg volumedetect` to within **0.04 dB**
 - peak sits **3.01 dB** above RMS for a sine, as the maths requires
-- quiet room **31.9 dB SNR → "good"**, loud room **4.6 dB → "noisy"**
+- quiet room **31.8 dB SNR → "good"**, loud room **4.6 dB → "fair (noisy)"**
 
 **One honest limitation.** The SNR estimate is the gap between the loudest and quietest tenth
 of 20 ms frames, which only means "signal vs background" when the recording contains pauses.
@@ -350,7 +350,7 @@ did nothing mid-demo.
 
 | Suite | Covers |
 |---|---|
-| `normalize.test.js` | Every input string copied verbatim from the source CSVs |
+| `normalize.test.js` | Every input format taken from the source CSVs, plus constructed edge cases |
 | `clean.test.js` | The three structural defects, asserted by real line number |
 | `match.test.js` | Each planted trap by name, both merge directions |
 | `audio.test.js` | Metrics against fixtures with independently known values |

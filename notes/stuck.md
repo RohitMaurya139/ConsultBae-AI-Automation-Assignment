@@ -1,8 +1,11 @@
 # Stuck log — raw notes
 
-Written **while it was happening**, not reconstructed at the end. The polished
-three-entry version is in the [README](../README.md#stuck-log); this file is the
-working record, including the smaller things that did not make the cut.
+Notes taken **as I hit each problem**, then tidied into readable entries when I wrote
+the README - `git log --follow notes/stuck.md` shows this file growing across the build
+and being cleaned up in the final docs commit. The findings are contemporaneous; the
+prose is not. The polished three-entry version is in the
+[README](../README.md#stuck-log); this file is the fuller record, including the smaller
+things that did not make the cut.
 
 ---
 
