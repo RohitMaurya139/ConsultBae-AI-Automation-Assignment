@@ -19,6 +19,7 @@ import { loadSource, SOURCES } from './clean.js';
 import { stageAll } from './stage.js';
 import { matchRecords } from './match.js';
 import { buildGoldenRecord } from './survivorship.js';
+import { generateReport } from './report.js';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DB_PATH = process.env.DB_PATH ?? 'consultbae.db';
@@ -134,6 +135,10 @@ export function runPipeline({ dbPath = DB_PATH, quiet = false } = {}) {
     [cols.join(','), ...rows.map((r) => cols.map((c) => csvEscape(r[c])).join(','))].join('\n') + '\n');
 
   writeFileSync(rel('reports/review_queue.json'), JSON.stringify(reviewQueue, null, 2) + '\n');
+
+  // Task 4 is generated from the data_issues table rather than hand-written, so
+  // it always describes the run that just happened.
+  generateReport(db, rel('DATA_ISSUES.md'));
 
   // -- 7. summary ------------------------------------------------------------
   const count = (sql) => db.prepare(sql).get().n;
