@@ -78,17 +78,12 @@
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({\n  contents: [{ parts: [{ text: `You are classifying a freelance worker into ONE skill category.\\n\\nAllowed categories, choose exactly one:\\n- automation-heavy  (n8n, Zapier, LangChain, workflow tooling)\\n- web-dev           (React, JavaScript, front-end)\\n- data              (Pandas, SQL, analytics, data pipelines)\\n- qa-automation     (Selenium, testing, web scraping)\\n- backend           (FastAPI, Docker, MongoDB, MySQL, REST APIs)\\n\\nWorker: ${$json.full_name}\\nSkills: ${$json.skills}\\n\\nReply with the category slug only. No punctuation, no explanation.` }] }],\n  generationConfig: { temperature: 0, maxOutputTokens: 512 }\n}) }}",
-        "options": {
-          "response": {
-            "response": {
-              "neverError": true
-            }
-          }
-        }
+        "options": {}
       },
       "retryOnFail": true,
       "maxTries": 4,
       "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput",
       "id": "a1000000-0000-4000-8000-000000000005",
       "name": "Gemini - classify skills",
       "type": "n8n-nodes-base.httpRequest",
@@ -100,7 +95,7 @@
           "name": "Gemini API Key"
         }
       },
-      "notes": "Header Auth credential: name = x-goog-api-key, value = your key. NOT Bearer (401). maxOutputTokens must be generous: flash models spend tokens on internal reasoning first, so a small budget returns an empty string. Retries handle the 503 UNAVAILABLE this endpoint returns under load."
+      "notes": "Header Auth credential: name = x-goog-api-key, value = your key. NOT Bearer (401). maxOutputTokens must be generous: flash models spend tokens on internal reasoning first, so a small budget returns an empty string. Retries handle the 503 UNAVAILABLE this endpoint returns under load - which is why 'Never Error' is deliberately OFF here: it would turn a 503 into a successful item and the retry would never fire. onError keeps a person who fails all 4 attempts flowing to the validator, which drops them down the skip branch."
     },
     {
       "parameters": {
@@ -191,7 +186,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=YOUR_SLACK_OR_DISCORD_WEBHOOK_URL",
+        "url": "YOUR_SLACK_OR_DISCORD_WEBHOOK_URL",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ text: $json.text, content: $json.text }) }}",
@@ -208,7 +203,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [700, 160],
-      "notes": "Paste a Slack or Discord incoming-webhook URL here. Body carries both 'text' (Slack) and 'content' (Discord) so either works."
+      "notes": "Paste a Slack or Discord incoming-webhook URL here. Body carries both 'text' (Slack) and 'content' (Discord) so either works. 'Never Error' is ON deliberately - alerting must not fail a run that already did its work, and it also means this node stays green on a fresh import where the URL has not been set yet. The trade-off: a green tick here does not prove delivery, so check the channel."
     }
   ],
   "connections": {
