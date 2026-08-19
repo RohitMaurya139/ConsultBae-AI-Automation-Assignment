@@ -1,5 +1,8 @@
 {
+  "id": "consultbaeSkillTag01",
   "name": "ConsultBae - LLM skill categorisation",
+  "active": false,
+  "versionId": "consultbae-v1",
   "nodes": [
     {
       "parameters": {},

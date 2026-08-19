@@ -95,6 +95,7 @@ into the database. Tested with four hostile inputs including `DROP TABLE people`
 | `404` from the API | `gemini-2.0-flash` and `gemini-2.5-flash` are both retired for new keys | `gemini-flash-lite-latest` |
 | Intermittent `503 UNAVAILABLE` | Endpoint overloads under demand; `flash-latest` needed 4 attempts where `flash-lite-latest` needed 1 | `retryOnFail`, 4 tries, 2 s backoff |
 | `400 invalid argument` | `flash-lite` rejects `thinkingConfig` | dropped it |
+| `SQLITE_CONSTRAINT: NOT NULL constraint failed: workflow_entity.id` on import, **and n8n still exits 0** | the export had no top-level `id` | added `id`, `active` and `versionId` |
 
 ## Verified output
 
@@ -110,3 +111,16 @@ into the database. Tested with four hostile inputs including `DROP TABLE people`
 Use the n8n **cloud trial** (the brief allows it), expose the app with
 `ngrok http 8000`, and change `apiBaseUrl` in the **Config** node to the ngrok URL.
 Nothing else changes.
+
+---
+
+## Verified against n8n 2.22.6
+
+```
+$ n8n import:workflow --input=n8n/workflow.json
+Importing 1 workflows...
+Successfully imported 1 workflow.
+```
+
+All 12 nodes and all 11 connections survive the import with their type-versions intact,
+so the 1.x node versions in this export are accepted by n8n 2.x.
