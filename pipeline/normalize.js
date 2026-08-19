@@ -44,11 +44,7 @@ export function normalizePhone(raw, ctx = {}) {
   const original = String(raw).trim();
   const issues = [];
   let digits = original.replace(/\D/g, '');
-
-  if (original !== original.replace(/[\s\-()]/g, '')) {
-    issues.push(issue('phone_format', 'low', original,
-      'Stripped separators and normalised to E.164', 'Contained spaces, hyphens or brackets'));
-  }
+  const hadSeparators = original !== original.replace(/[\s\-()]/g, '');
 
   // Strip country code / trunk prefix, longest first.
   if (digits.length === 12 && digits.startsWith('91')) {
@@ -73,9 +69,15 @@ export function normalizePhone(raw, ctx = {}) {
       `Starts with ${digits[0]}; Indian mobile numbers start 6-9`));
   }
 
+  // One issue per defective value, not one per defect. A number like
+  // '+91-9000000131' has both a separator and a non-canonical prefix, but that
+  // is one problem with one row, and logging it twice inflates the report.
   if (original !== `+91${digits}`) {
     issues.push(issue('phone_format', 'low', original,
-      `Normalised to +91${digits}`, ctx.note ?? 'Inconsistent phone format across sources'));
+      `Normalised to +91${digits}`,
+      hadSeparators
+        ? 'Contained separators and a non-canonical prefix; phone formats are inconsistent across sources'
+        : (ctx.note ?? 'Inconsistent phone format across sources')));
   }
 
   return { value: `+91${digits}`, issues, last10: digits };

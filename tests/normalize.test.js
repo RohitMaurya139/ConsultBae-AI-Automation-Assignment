@@ -92,7 +92,8 @@ test('date: the two separators disagree about field order, and both are proven b
   assert.equal(parseAppliedDate('03-07-2026').value, '2026-07-03'); // dash  => DD-MM => 3 July
   assert.equal(parseAppliedDate('03/07/2026').value, '2026-03-07'); // slash => MM/DD => 7 March
 
-  // Both of these strings really are in source1, four months apart in meaning.
+  // '07/03/2026' and '03-07-2026' both really appear in source1. Same three
+  // numbers, different separators, and the rule makes them mean different days.
   assert.notEqual(parseAppliedDate('07-03-2026').value, parseAppliedDate('07/03/2026').value);
 });
 

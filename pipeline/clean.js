@@ -2,8 +2,9 @@
  * Structural cleaning - problems with the *shape* of a row, before any field
  * is normalised.
  *
- * The three source files each carry a different structural defect:
- *   source1: a byte-identical duplicate row, and a row whose name is abbreviated
+ * Two of the three source files carry structural defects:
+ *   source1: none - its duplicate pair differs in the name column, so it is not a
+ *            structural repeat. It is caught later, by email matching.
  *   source2: one completely blank row, and one row whose columns are rotated
  *   source3: the header line repeated in the middle of the file
  *

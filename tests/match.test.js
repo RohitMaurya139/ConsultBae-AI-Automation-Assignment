@@ -40,27 +40,42 @@ test('every source row lands in exactly one person', () => {
 // ---------------------------------------------------------------------------
 // TRAP 1: two different people share a name AND a city.
 // ---------------------------------------------------------------------------
-test('the two Arjun Mehtas of Noida are NOT merged', () => {
+test('there are exactly TWO Arjun Mehtas of Noida - not one, and not three', () => {
   const arjuns = byName('Arjun Mehta');
-  assert.ok(arjuns.length >= 2, `expected at least 2 Arjun Mehtas, got ${arjuns.length}`);
+  assert.equal(arjuns.length, 2, `expected exactly 2 Arjun Mehtas, got ${arjuns.length}`);
 
-  // source1's Arjun Mehta is joined to source3 by phone - that one is real.
-  const withPhone = arjuns.find((p) => p.person.primary_phone === '+919000000131');
-  assert.ok(withPhone, 'source1+source3 Arjun Mehta did not merge on phone');
-  assert.equal(withPhone.person.primary_email, 'arjun.mehta9@example.in');
+  // #1: source1 joined to source3 by a shared phone.
+  const first = arjuns.find((p) => p.person.primary_phone === '+919000000131');
+  assert.ok(first, 'source1+source3 Arjun Mehta did not merge on phone');
+  assert.equal(first.person.primary_email, 'arjun.mehta9@example.in');
+  assert.equal(first.person.match_confidence, 'high');
 
-  // The other source3 Arjun Mehta has a different phone and must stay separate.
-  const other = arjuns.find((p) => p.person.primary_phone === '+919000000272');
-  assert.ok(other, 'the second source3 Arjun Mehta disappeared');
-  assert.notEqual(withPhone.person.primary_phone, other.person.primary_phone);
+  // #2: source2 joined to source3 by name+city, since he has no source1 row.
+  const second = arjuns.find((p) => p.person.primary_phone === '+919000000272');
+  assert.ok(second, 'the second Arjun Mehta was not assembled');
+  assert.equal(second.person.primary_email, 'arjun.mehta77@mailtest.example.org');
+  assert.equal(second.person.match_confidence, 'medium');
 
-  // And the guard must have fired rather than silently doing nothing.
-  assert.ok(issues.some((i) => i.issue_type === 'ambiguous_name_match' && /arjun mehta/.test(i.raw_value)),
-    'ambiguous name+city was not reported');
+  // Under-merging is as wrong as over-merging: #2 must be a WHOLE person, with
+  // both halves of his record, not two fragments each missing the other's fields.
+  assert.equal(second.person.projects_completed, 14);   // from source3
+  assert.equal(second.person.is_verified, 1);           // from source3
+  assert.equal(second.person.rate_raw, '42k/month');    // from source2
+  assert.ok(second.skills.length > 0, 'the merged Arjun Mehta has no skills');
 });
 
-test('the ambiguous case is queued for a human, not dropped on the floor', () => {
-  assert.ok(reviewQueue.some((r) => r.reason === 'ambiguous_name_match' && /arjun mehta/.test(r.nameCity)));
+test('the third person sharing that name+city is ruled out, and the reasoning is recorded', () => {
+  // A complete cluster (source1+source3) also answers to "arjun mehta / Noida".
+  // It cannot be the missing half of a bridge, and its skills do not match, so
+  // the merge proceeds - but the rejected alternative must be written down.
+  const note = issues.find((i) => i.issue_type === 'name_city_shared_with_third_person' && /arjun mehta/.test(i.raw_value));
+  assert.ok(note, 'the ruled-out third person was not recorded');
+  assert.match(note.detail, /cannot be the missing half/);
+});
+
+test('near-misses we refused to merge still reach a human', () => {
+  // Same name, different city -> deliberately not merged, but not silently dropped.
+  assert.ok(reviewQueue.some((r) => r.reason === 'same_name_different_city' && /deepak nair/.test(r.nameCity)));
 });
 
 // ---------------------------------------------------------------------------
@@ -105,7 +120,7 @@ test('the two Deepak Nairs are NOT merged', () => {
 test('tier-3 links the people who exist in source2 and source3 but not source1', () => {
   const medium = people.filter((p) => p.person.match_confidence === 'medium');
   const names = medium.map((p) => p.person.full_name).sort();
-  assert.deepEqual(names, ['Divya Chopra', 'Karan Chopra', 'Manish Bhatia', 'Vikram Mehta']);
+  assert.deepEqual(names, ['Arjun Mehta', 'Divya Chopra', 'Karan Chopra', 'Manish Bhatia', 'Vikram Mehta']);
 
   for (const p of medium) {
     // Each must carry an email from source2 and a phone from source3.

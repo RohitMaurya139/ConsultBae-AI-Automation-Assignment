@@ -122,7 +122,14 @@ export function runPipeline({ dbPath = DB_PATH, quiet = false } = {}) {
   if (!existsSync(rel('reports'))) mkdirSync(rel('reports'), { recursive: true });
 
   const cols = ['source_file', 'source_row', 'column_name', 'issue_type', 'severity', 'raw_value', 'action_taken', 'detail'];
-  const rows = db.prepare(`SELECT ${cols.join(',')} FROM data_issues ORDER BY severity DESC, issue_type, source_file, source_row`).all();
+  // Severity must be ordered by meaning, not alphabetically - as text,
+  // 'high' < 'low' < 'medium', which would bury every serious finding at the
+  // bottom of the report.
+  const rows = db.prepare(`
+    SELECT ${cols.join(',')} FROM data_issues
+    ORDER BY CASE severity WHEN 'high' THEN 0 WHEN 'medium' THEN 1 ELSE 2 END,
+             issue_type, source_file, source_row
+  `).all();
   writeFileSync(rel('reports/data_issues.csv'),
     [cols.join(','), ...rows.map((r) => cols.map((c) => csvEscape(r[c])).join(','))].join('\n') + '\n');
 

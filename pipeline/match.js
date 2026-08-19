@@ -166,7 +166,7 @@ export function matchRecords(records) {
   records.forEach((rec, idx) => {
     const root = uf.find(idx);
     if (!clusterOf.has(root)) {
-      clusterOf.set(root, { root, indices: [], emails: new Set(), phones: new Set(), nameKeys: new Set(), cities: new Set() });
+      clusterOf.set(root, { root, indices: [], emails: new Set(), phones: new Set(), nameKeys: new Set(), cities: new Set(), skillKeys: new Set() });
     }
     const c = clusterOf.get(root);
     c.indices.push(idx);
@@ -174,6 +174,7 @@ export function matchRecords(records) {
     if (rec.phone) c.phones.add(rec.phone);
     if (rec.nameKey && !rec.hasInitial) c.nameKeys.add(rec.nameKey);
     if (rec.city && rec.cityCanonical) c.cities.add(rec.city);
+    for (const s of rec.skills ?? []) c.skillKeys.add(s.match_key);
   });
 
   // Index clusters by every (name, city) pair they present.
@@ -196,16 +197,18 @@ export function matchRecords(records) {
     const phoneOnly = clusters.filter((c) => c.phones.size > 0 && c.emails.size === 0);
     const complete = clusters.filter((c) => c.emails.size > 0 && c.phones.size > 0);
 
-    // GUARD. If more than two clusters answer to this name+city, or either side
-    // is ambiguous, the key is not discriminating and we must not guess.
+    // GUARD 1 - the bridge must be unambiguous.
     //
-    // This is the branch that saves the two Arjun Mehtas of Noida: one of them
-    // is already a complete cluster (source1 + source3, joined on phone), so a
-    // name+city merge of the remaining two would be a coin flip.
-    if (clusters.length > 2 || emailOnly.length !== 1 || phoneOnly.length !== 1) {
-      const detail = complete.length > 0
-        ? `${clusters.length} distinct people share the name+city "${nameKey} / ${city}", one of which already has both an email and a phone. Name+city cannot discriminate between them.`
-        : `${clusters.length} clusters share the name+city "${nameKey} / ${city}" (${emailOnly.length} email-only, ${phoneOnly.length} phone-only). Ambiguous.`;
+    // Tier 3 exists to join a source2 row (email, no phone) to a source3 row
+    // (phone, no email). If either side has more than one candidate we cannot
+    // tell which pairs with which, so we refuse.
+    //
+    // Note what is deliberately NOT part of this test: a cluster that already
+    // holds both an email and a phone. Such a cluster cannot be the missing half
+    // of the bridge - it is already whole - so counting it as a rival candidate
+    // would block correct merges. It is handled by GUARD 2 instead.
+    if (emailOnly.length !== 1 || phoneOnly.length !== 1) {
+      const detail = `${clusters.length} clusters share the name+city "${nameKey} / ${city}" (${emailOnly.length} email-only, ${phoneOnly.length} phone-only). Cannot tell which pairs with which.`;
 
       issues.push({
         issue_type: 'ambiguous_name_match',
@@ -227,10 +230,61 @@ export function matchRecords(records) {
       continue;
     }
 
-    // Exactly one email-only and one phone-only cluster, and nothing else.
     const a = emailOnly[0];
     const b = phoneOnly[0];
     if (uf.find(a.root) === uf.find(b.root)) continue;
+
+    // GUARD 2 - is a complete cluster the real owner of this email-only row?
+    //
+    // A complete cluster cannot be the bridge partner, but it CAN own the
+    // email-only row as a *second* address: this dataset contains exactly that
+    // pattern (one person, two emails, one phone). So we do not ignore complete
+    // clusters - we ask whether any evidence supports them claiming this row,
+    // using skills as a corroborating attribute.
+    //
+    // Skills are a strong signal here: across all 102 rows, every pair of records
+    // that share an email also shares a byte-identical skill list, and no two
+    // different people share one. If the skill sets do not match, the complete
+    // cluster is not the owner and the bridge merge is safe.
+    const skillSig = (c) => [...c.skillKeys].sort().join('|');
+    const emailSig = skillSig(a);
+    const claimant = complete.find((c) => emailSig && skillSig(c) === emailSig);
+
+    if (claimant) {
+      const detail = `A person with the same name+city "${nameKey} / ${city}" already holds both an email and a phone, and has an identical skill set to the unmatched row. It is more likely a second address for that person than a separate human.`;
+      issues.push({
+        issue_type: 'ambiguous_name_match',
+        severity: 'high',
+        raw_value: `${nameKey} / ${city}`,
+        action_taken: 'NOT merged - left as separate people and queued for human review',
+        detail,
+        source_file: records[a.indices[0]].sourceFile,
+        source_row: records[a.indices[0]].sourceRow,
+        column_name: null,
+      });
+      reviewQueue.push({
+        reason: 'complete_cluster_may_own_row',
+        nameCity: `${nameKey} / ${city}`,
+        candidates: clusters.map((c) => c.indices.map((i) => label(records[i]))),
+        detail,
+      });
+      continue;
+    }
+
+    // A complete cluster shares the name+city but nothing corroborates its claim.
+    // Merge, but record that the alternative was considered and rejected.
+    if (complete.length > 0) {
+      issues.push({
+        issue_type: 'name_city_shared_with_third_person',
+        severity: 'medium',
+        raw_value: `${nameKey} / ${city}`,
+        action_taken: 'Merged the email-only and phone-only rows; the complete cluster was ruled out',
+        detail: `Another person with the same name and city already has both an email and a phone (${complete.flatMap((c) => c.indices.map((i) => label(records[i]))).join(', ')}), so they cannot be the missing half of this pair. Their skill set also differs from the unmatched row, so they are not its owner either.`,
+        source_file: records[b.indices[0]].sourceFile,
+        source_row: records[b.indices[0]].sourceRow,
+        column_name: null,
+      });
+    }
 
     uf.union(a.root, b.root);
     noteReason(a.root, b.root, `tier3: same name+city "${nameKey} / ${city}" (no shared identifier)`);

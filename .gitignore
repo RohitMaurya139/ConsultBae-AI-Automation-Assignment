@@ -29,3 +29,7 @@ Thumbs.db
 # n8n local runtime
 n8n/.n8n/
 node_modules/
+
+# SQLite sidecar files (WAL mode)
+*.db-shm
+*.db-wal

@@ -1,4 +1,38 @@
 source_file,source_row,column_name,issue_type,severity,raw_value,action_taken,detail
+source2_gig_workers.csv,20,,column_shift,high,"react, javascript, mysql|ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG|Isha Chopra|1406/hr|Pune|active","Rotated fields back into header order -> ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG|Isha Chopra|1406/hr|Pune|active|react, javascript, mysql","Column 0 was not an email but a later column was, so the fields had shifted right by one"
+source1_naukri_applicants.csv,6,Current CTC,ctc_mixed_units,high,4.2,Interpreted as 4.2 LPA -> 420000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,8,Current CTC,ctc_mixed_units,high,8.3,Interpreted as 8.3 LPA -> 830000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,14,Current CTC,ctc_mixed_units,high,5.1,Interpreted as 5.1 LPA -> 510000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,16,Current CTC,ctc_mixed_units,high,6.1,Interpreted as 6.1 LPA -> 610000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,17,Current CTC,ctc_mixed_units,high,5.8,Interpreted as 5.8 LPA -> 580000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,18,Current CTC,ctc_mixed_units,high,11.2,Interpreted as 11.2 LPA -> 1120000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,19,Current CTC,ctc_mixed_units,high,7.6,Interpreted as 7.6 LPA -> 760000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,21,Current CTC,ctc_mixed_units,high,2.4,Interpreted as 2.4 LPA -> 240000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,22,Current CTC,ctc_mixed_units,high,10.0,Interpreted as 10 LPA -> 1000000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,24,Current CTC,ctc_mixed_units,high,11.9,Interpreted as 11.9 LPA -> 1190000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,25,Current CTC,ctc_mixed_units,high,6.1,Interpreted as 6.1 LPA -> 610000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,27,Current CTC,ctc_mixed_units,high,7.8,Interpreted as 7.8 LPA -> 780000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,28,Current CTC,ctc_mixed_units,high,6.6,Interpreted as 6.6 LPA -> 660000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,31,Current CTC,ctc_mixed_units,high,6.1,Interpreted as 6.1 LPA -> 610000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,32,Current CTC,ctc_mixed_units,high,7.6,Interpreted as 7.6 LPA -> 760000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,34,Current CTC,ctc_mixed_units,high,2.7,Interpreted as 2.7 LPA -> 270000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,36,Current CTC,ctc_mixed_units,high,11.4,Interpreted as 11.4 LPA -> 1140000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,37,Current CTC,ctc_mixed_units,high,7.8,Interpreted as 7.8 LPA -> 780000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,39,Current CTC,ctc_mixed_units,high,9.3,Interpreted as 9.3 LPA -> 930000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,40,Current CTC,ctc_mixed_units,high,5.9,Interpreted as 5.9 LPA -> 590000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,42,Current CTC,ctc_mixed_units,high,10.3,Interpreted as 10.3 LPA -> 1030000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
+source1_naukri_applicants.csv,4,Applied Date,date_ambiguous,high,01-08-2026,Read as DD-MM-YYYY -> 2026-08-01,Both parts <= 12. Dash format resolved as day-first because 24-07-2026 exists in this file and can only be DD-MM
+source1_naukri_applicants.csv,12,Applied Date,date_ambiguous,high,07/03/2026,Read as MM/DD/YYYY -> 2026-07-03,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
+source1_naukri_applicants.csv,22,Applied Date,date_ambiguous,high,03-07-2026,Read as DD-MM-YYYY -> 2026-07-03,Both parts <= 12. Dash format resolved as day-first because 24-07-2026 exists in this file and can only be DD-MM
+source1_naukri_applicants.csv,27,Applied Date,date_ambiguous,high,07/03/2026,Read as MM/DD/YYYY -> 2026-07-03,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
+source1_naukri_applicants.csv,35,Applied Date,date_ambiguous,high,08/11/2026,Read as MM/DD/YYYY -> 2026-08-11,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
+source1_naukri_applicants.csv,37,Applied Date,date_ambiguous,high,07/03/2026,Read as MM/DD/YYYY -> 2026-07-03,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
+source1_naukri_applicants.csv,41,Applied Date,date_ambiguous,high,02-06-2026,Read as DD-MM-YYYY -> 2026-06-02,Both parts <= 12. Dash format resolved as day-first because 24-07-2026 exists in this file and can only be DD-MM
+source1_naukri_applicants.csv,42,Applied Date,date_ambiguous,high,07/12/2026,Read as MM/DD/YYYY -> 2026-07-12,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
+source1_naukri_applicants.csv,31,,duplicate_person_same_email,high,R. Verma / Rohit Verma,Merged into one person on the shared email address,"Same email rohit.verma13@mailtest.example.org written under two different names (source1_naukri_applicants.csv:25, source1_naukri_applicants.csv:31)"
+source2_gig_workers.csv,20,,duplicate_row_in_source,high,"react, javascript, mysql|ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG|Isha Chopra|1406/hr|Pune|active",Row dropped as a duplicate of row 7,Identical field-for-field after trimming and lower-casing
+source3_cbnexus_contacts.csv,16,,repeated_header,high,Name|Phone Number|City|Verified|Projects Completed,Row dropped,"Header line repeated inside the data - would otherwise be ingested as a person named ""Name"""
+source1_naukri_applicants.csv,37,,same_person_two_emails,high,alt.nikhil.chopra70@example.com / nikhil.chopra70@example.com,Merged on the shared phone number; both addresses kept in person_identifiers,"One person holding two email addresses (source1_naukri_applicants.csv:27, source1_naukri_applicants.csv:37) - an email-only match would have created two people"
 source2_gig_workers.csv,12,,blank_row,medium,,Row dropped,Every field empty
 source2_gig_workers.csv,7,email_id,email_case,medium,ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG,Lower-cased to isha.chopra95@mailtest.example.org,Mixed-case email would not match the same address written in lower case
 source2_gig_workers.csv,13,email_id,email_case,medium,VARUN.SAXENA21@EXAMPLE.IN,Lower-cased to varun.saxena21@example.in,Mixed-case email would not match the same address written in lower case
@@ -9,12 +43,14 @@ source2_gig_workers.csv,25,email_id,email_case,medium,KAVYA.VERMA74@MAILTEST.EXA
 source2_gig_workers.csv,26,email_id,email_case,medium,TANVI.REDDY80@EXAMPLE.COM,Lower-cased to tanvi.reddy80@example.com,Mixed-case email would not match the same address written in lower case
 source2_gig_workers.csv,31,email_id,email_case,medium,TANVI.SHARMA56@MAILTEST.EXAMPLE.ORG,Lower-cased to tanvi.sharma56@mailtest.example.org,Mixed-case email would not match the same address written in lower case
 source2_gig_workers.csv,32,email_id,email_case,medium,DEEPAK.NAIR57@EXAMPLE.IN,Lower-cased to deepak.nair57@example.in,Mixed-case email would not match the same address written in lower case
+source3_cbnexus_contacts.csv,28,,matched_on_name_and_city,medium,arjun mehta / Noida,Merged at medium confidence,"No identifier links these rows - source2 has no phone column and source3 has no email column, and neither person appears in source1. Merged because the name+city pair is unique across the dataset. Rows: source2_gig_workers.csv:18, source3_cbnexus_contacts.csv:28"
 source3_cbnexus_contacts.csv,29,,matched_on_name_and_city,medium,bhatia manish / Noida,Merged at medium confidence,"No identifier links these rows - source2 has no phone column and source3 has no email column, and neither person appears in source1. Merged because the name+city pair is unique across the dataset. Rows: source2_gig_workers.csv:19, source3_cbnexus_contacts.csv:29"
 source3_cbnexus_contacts.csv,30,,matched_on_name_and_city,medium,chopra divya / Noida,Merged at medium confidence,"No identifier links these rows - source2 has no phone column and source3 has no email column, and neither person appears in source1. Merged because the name+city pair is unique across the dataset. Rows: source2_gig_workers.csv:21, source3_cbnexus_contacts.csv:30"
 source3_cbnexus_contacts.csv,31,,matched_on_name_and_city,medium,chopra karan / Pune,Merged at medium confidence,"No identifier links these rows - source2 has no phone column and source3 has no email column, and neither person appears in source1. Merged because the name+city pair is unique across the dataset. Rows: source2_gig_workers.csv:22, source3_cbnexus_contacts.csv:31"
 source3_cbnexus_contacts.csv,32,,matched_on_name_and_city,medium,mehta vikram / Pune,Merged at medium confidence,"No identifier links these rows - source2 has no phone column and source3 has no email column, and neither person appears in source1. Merged because the name+city pair is unique across the dataset. Rows: source2_gig_workers.csv:23, source3_cbnexus_contacts.csv:32"
 source1_naukri_applicants.csv,27,email,multiple_emails_one_person,medium,alt.nikhil.chopra70@example.com / nikhil.chopra70@example.com,"Primary set to nikhil.chopra70@example.com, all addresses kept in person_identifiers",One human holding more than one email address across the source systems
 source1_naukri_applicants.csv,25,Full Name,name_abbreviated,medium,R. Verma,Excluded initials from the match key,Abbreviated given name cannot safely drive a name-based match
+source3_cbnexus_contacts.csv,28,,name_city_shared_with_third_person,medium,arjun mehta / Noida,Merged the email-only and phone-only rows; the complete cluster was ruled out,"Another person with the same name and city already has both an email and a phone (source1_naukri_applicants.csv:20, source3_cbnexus_contacts.csv:5), so they cannot be the missing half of this pair. Their skill set also differs from the unmatched row, so they are not its owner either."
 source2_gig_workers.csv,6,rate,rate_mixed_units,medium,15k/month,Converted 15000 INR/month -> 85.23 INR/hour,Column mixes /hr and k/month. Assumed 176 working hours per month (22 days x 8h)
 source2_gig_workers.csv,10,rate,rate_mixed_units,medium,72k/month,Converted 72000 INR/month -> 409.09 INR/hour,Column mixes /hr and k/month. Assumed 176 working hours per month (22 days x 8h)
 source2_gig_workers.csv,14,rate,rate_mixed_units,medium,28k/month,Converted 28000 INR/month -> 159.09 INR/hour,Column mixes /hr and k/month. Assumed 176 working hours per month (22 days x 8h)
@@ -175,30 +211,25 @@ source1_naukri_applicants.csv,43,Phone,phone_format,low,09000000273,Normalised t
 source3_cbnexus_contacts.csv,2,Phone Number,phone_format,low,9000000268,Normalised to +919000000268,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,3,Phone Number,phone_format,low,9000000146,Normalised to +919000000146,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,4,Phone Number,phone_format,low,919000000231,Normalised to +919000000231,Inconsistent phone format across sources
-source3_cbnexus_contacts.csv,5,Phone Number,phone_format,low,+91-9000000131,Stripped separators and normalised to E.164,"Contained spaces, hyphens or brackets"
-source3_cbnexus_contacts.csv,5,Phone Number,phone_format,low,+91-9000000131,Normalised to +919000000131,Inconsistent phone format across sources
-source3_cbnexus_contacts.csv,6,Phone Number,phone_format,low,+91-9000000104,Stripped separators and normalised to E.164,"Contained spaces, hyphens or brackets"
-source3_cbnexus_contacts.csv,6,Phone Number,phone_format,low,+91-9000000104,Normalised to +919000000104,Inconsistent phone format across sources
+source3_cbnexus_contacts.csv,5,Phone Number,phone_format,low,+91-9000000131,Normalised to +919000000131,Contained separators and a non-canonical prefix; phone formats are inconsistent across sources
+source3_cbnexus_contacts.csv,6,Phone Number,phone_format,low,+91-9000000104,Normalised to +919000000104,Contained separators and a non-canonical prefix; phone formats are inconsistent across sources
 source3_cbnexus_contacts.csv,7,Phone Number,phone_format,low,919000000260,Normalised to +919000000260,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,8,Phone Number,phone_format,low,9000000116,Normalised to +919000000116,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,9,Phone Number,phone_format,low,9000000143,Normalised to +919000000143,Inconsistent phone format across sources
-source3_cbnexus_contacts.csv,10,Phone Number,phone_format,low,+91-9000000227,Stripped separators and normalised to E.164,"Contained spaces, hyphens or brackets"
-source3_cbnexus_contacts.csv,10,Phone Number,phone_format,low,+91-9000000227,Normalised to +919000000227,Inconsistent phone format across sources
+source3_cbnexus_contacts.csv,10,Phone Number,phone_format,low,+91-9000000227,Normalised to +919000000227,Contained separators and a non-canonical prefix; phone formats are inconsistent across sources
 source3_cbnexus_contacts.csv,11,Phone Number,phone_format,low,9000000287,Normalised to +919000000287,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,12,Phone Number,phone_format,low,919000000263,Normalised to +919000000263,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,13,Phone Number,phone_format,low,919000000148,Normalised to +919000000148,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,14,Phone Number,phone_format,low,9000000211,Normalised to +919000000211,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,15,Phone Number,phone_format,low,919000000106,Normalised to +919000000106,Inconsistent phone format across sources
-source3_cbnexus_contacts.csv,17,Phone Number,phone_format,low,+91-9000000295,Stripped separators and normalised to E.164,"Contained spaces, hyphens or brackets"
-source3_cbnexus_contacts.csv,17,Phone Number,phone_format,low,+91-9000000295,Normalised to +919000000295,Inconsistent phone format across sources
+source3_cbnexus_contacts.csv,17,Phone Number,phone_format,low,+91-9000000295,Normalised to +919000000295,Contained separators and a non-canonical prefix; phone formats are inconsistent across sources
 source3_cbnexus_contacts.csv,18,Phone Number,phone_format,low,919000000138,Normalised to +919000000138,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,19,Phone Number,phone_format,low,919000000223,Normalised to +919000000223,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,20,Phone Number,phone_format,low,9000000113,Normalised to +919000000113,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,21,Phone Number,phone_format,low,9000000137,Normalised to +919000000137,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,22,Phone Number,phone_format,low,9000000254,Normalised to +919000000254,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,23,Phone Number,phone_format,low,919000000170,Normalised to +919000000170,Inconsistent phone format across sources
-source3_cbnexus_contacts.csv,24,Phone Number,phone_format,low,+91-9000000162,Stripped separators and normalised to E.164,"Contained spaces, hyphens or brackets"
-source3_cbnexus_contacts.csv,24,Phone Number,phone_format,low,+91-9000000162,Normalised to +919000000162,Inconsistent phone format across sources
+source3_cbnexus_contacts.csv,24,Phone Number,phone_format,low,+91-9000000162,Normalised to +919000000162,Contained separators and a non-canonical prefix; phone formats are inconsistent across sources
 source3_cbnexus_contacts.csv,25,Phone Number,phone_format,low,919000000296,Normalised to +919000000296,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,26,Phone Number,phone_format,low,9000000133,Normalised to +919000000133,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,27,Phone Number,phone_format,low,9000000273,Normalised to +919000000273,Inconsistent phone format across sources
@@ -206,8 +237,7 @@ source3_cbnexus_contacts.csv,28,Phone Number,phone_format,low,9000000272,Normali
 source3_cbnexus_contacts.csv,29,Phone Number,phone_format,low,919000000161,Normalised to +919000000161,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,30,Phone Number,phone_format,low,9000000111,Normalised to +919000000111,Inconsistent phone format across sources
 source3_cbnexus_contacts.csv,31,Phone Number,phone_format,low,919000000245,Normalised to +919000000245,Inconsistent phone format across sources
-source3_cbnexus_contacts.csv,32,Phone Number,phone_format,low,+91-9000000261,Stripped separators and normalised to E.164,"Contained spaces, hyphens or brackets"
-source3_cbnexus_contacts.csv,32,Phone Number,phone_format,low,+91-9000000261,Normalised to +919000000261,Inconsistent phone format across sources
+source3_cbnexus_contacts.csv,32,Phone Number,phone_format,low,+91-9000000261,Normalised to +919000000261,Contained separators and a non-canonical prefix; phone formats are inconsistent across sources
 source2_gig_workers.csv,2,status,status_case,low,Active,"Lower-cased to ""active""",Status column is not case-consistent
 source2_gig_workers.csv,3,status,status_case,low,Active,"Lower-cased to ""active""",Status column is not case-consistent
 source2_gig_workers.csv,5,status,status_case,low,ACTIVE,"Lower-cased to ""active""",Status column is not case-consistent
@@ -230,38 +260,3 @@ source2_gig_workers.csv,30,status,status_case,low,Inactive,"Lower-cased to ""ina
 source2_gig_workers.csv,31,status,status_case,low,ACTIVE,"Lower-cased to ""active""",Status column is not case-consistent
 source2_gig_workers.csv,32,status,status_case,low,Active,"Lower-cased to ""active""",Status column is not case-consistent
 source2_gig_workers.csv,33,status,status_case,low,Inactive,"Lower-cased to ""inactive""",Status column is not case-consistent
-source1_naukri_applicants.csv,20,,ambiguous_name_match,high,arjun mehta / Noida,NOT merged - left as separate people and queued for human review,"3 distinct people share the name+city ""arjun mehta / Noida"", one of which already has both an email and a phone. Name+city cannot discriminate between them."
-source2_gig_workers.csv,20,,column_shift,high,"react, javascript, mysql|ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG|Isha Chopra|1406/hr|Pune|active","Rotated fields back into header order -> ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG|Isha Chopra|1406/hr|Pune|active|react, javascript, mysql","Column 0 was not an email but a later column was, so the fields had shifted right by one"
-source1_naukri_applicants.csv,6,Current CTC,ctc_mixed_units,high,4.2,Interpreted as 4.2 LPA -> 420000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,8,Current CTC,ctc_mixed_units,high,8.3,Interpreted as 8.3 LPA -> 830000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,14,Current CTC,ctc_mixed_units,high,5.1,Interpreted as 5.1 LPA -> 510000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,16,Current CTC,ctc_mixed_units,high,6.1,Interpreted as 6.1 LPA -> 610000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,17,Current CTC,ctc_mixed_units,high,5.8,Interpreted as 5.8 LPA -> 580000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,18,Current CTC,ctc_mixed_units,high,11.2,Interpreted as 11.2 LPA -> 1120000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,19,Current CTC,ctc_mixed_units,high,7.6,Interpreted as 7.6 LPA -> 760000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,21,Current CTC,ctc_mixed_units,high,2.4,Interpreted as 2.4 LPA -> 240000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,22,Current CTC,ctc_mixed_units,high,10.0,Interpreted as 10 LPA -> 1000000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,24,Current CTC,ctc_mixed_units,high,11.9,Interpreted as 11.9 LPA -> 1190000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,25,Current CTC,ctc_mixed_units,high,6.1,Interpreted as 6.1 LPA -> 610000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,27,Current CTC,ctc_mixed_units,high,7.8,Interpreted as 7.8 LPA -> 780000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,28,Current CTC,ctc_mixed_units,high,6.6,Interpreted as 6.6 LPA -> 660000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,31,Current CTC,ctc_mixed_units,high,6.1,Interpreted as 6.1 LPA -> 610000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,32,Current CTC,ctc_mixed_units,high,7.6,Interpreted as 7.6 LPA -> 760000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,34,Current CTC,ctc_mixed_units,high,2.7,Interpreted as 2.7 LPA -> 270000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,36,Current CTC,ctc_mixed_units,high,11.4,Interpreted as 11.4 LPA -> 1140000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,37,Current CTC,ctc_mixed_units,high,7.8,Interpreted as 7.8 LPA -> 780000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,39,Current CTC,ctc_mixed_units,high,9.3,Interpreted as 9.3 LPA -> 930000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,40,Current CTC,ctc_mixed_units,high,5.9,Interpreted as 5.9 LPA -> 590000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,42,Current CTC,ctc_mixed_units,high,10.3,Interpreted as 10.3 LPA -> 1030000 INR/year,Column mixes absolute INR and lakhs-per-annum. Values below 100 treated as LPA
-source1_naukri_applicants.csv,4,Applied Date,date_ambiguous,high,01-08-2026,Read as DD-MM-YYYY -> 2026-08-01,Both parts <= 12. Dash format resolved as day-first because 24-07-2026 exists in this file and can only be DD-MM
-source1_naukri_applicants.csv,12,Applied Date,date_ambiguous,high,07/03/2026,Read as MM/DD/YYYY -> 2026-07-03,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
-source1_naukri_applicants.csv,22,Applied Date,date_ambiguous,high,03-07-2026,Read as DD-MM-YYYY -> 2026-07-03,Both parts <= 12. Dash format resolved as day-first because 24-07-2026 exists in this file and can only be DD-MM
-source1_naukri_applicants.csv,27,Applied Date,date_ambiguous,high,07/03/2026,Read as MM/DD/YYYY -> 2026-07-03,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
-source1_naukri_applicants.csv,35,Applied Date,date_ambiguous,high,08/11/2026,Read as MM/DD/YYYY -> 2026-08-11,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
-source1_naukri_applicants.csv,37,Applied Date,date_ambiguous,high,07/03/2026,Read as MM/DD/YYYY -> 2026-07-03,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
-source1_naukri_applicants.csv,41,Applied Date,date_ambiguous,high,02-06-2026,Read as DD-MM-YYYY -> 2026-06-02,Both parts <= 12. Dash format resolved as day-first because 24-07-2026 exists in this file and can only be DD-MM
-source1_naukri_applicants.csv,42,Applied Date,date_ambiguous,high,07/12/2026,Read as MM/DD/YYYY -> 2026-07-12,Both parts <= 12. Slash format resolved as US order because 07/13/2026 exists in this file and can only be MM/DD
-source1_naukri_applicants.csv,31,,duplicate_person_same_email,high,R. Verma / Rohit Verma,Merged into one person on the shared email address,"Same email rohit.verma13@mailtest.example.org written under two different names (source1_naukri_applicants.csv:25, source1_naukri_applicants.csv:31)"
-source2_gig_workers.csv,20,,duplicate_row_in_source,high,"react, javascript, mysql|ISHA.CHOPRA95@MAILTEST.EXAMPLE.ORG|Isha Chopra|1406/hr|Pune|active",Row dropped as a duplicate of row 7,Identical field-for-field after trimming and lower-casing
-source3_cbnexus_contacts.csv,16,,repeated_header,high,Name|Phone Number|City|Verified|Projects Completed,Row dropped,"Header line repeated inside the data - would otherwise be ingested as a person named ""Name"""
-source1_naukri_applicants.csv,37,,same_person_two_emails,high,alt.nikhil.chopra70@example.com / nikhil.chopra70@example.com,Merged on the shared phone number; both addresses kept in person_identifiers,"One person holding two email addresses (source1_naukri_applicants.csv:27, source1_naukri_applicants.csv:37) - an email-only match would have created two people"
