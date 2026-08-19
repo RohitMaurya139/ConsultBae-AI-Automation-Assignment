@@ -25,7 +25,7 @@ import 'dotenv/config';
 import { analyzeAudio } from './audio.js';
 import {
   findOrCreatePerson, insertSubmission, listSubmissions, getSubmission,
-  listUntaggedPeople, setSkillCategory, stats,
+  listAllPeople, listUntaggedPeople, setSkillCategory, stats,
 } from './db.js';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -169,8 +169,9 @@ app.post('/submit', (req, res) => {
 
 app.get('/api/people', (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 100, 500);
-  if (req.query.untagged === 'true') return res.json(listUntaggedPeople(limit));
-  res.json(listUntaggedPeople(limit));
+  // ?untagged=true is what the n8n flow sends, so it only ever pulls work it
+  // still has to do. Without the flag this lists everyone, tagged or not.
+  res.json(req.query.untagged === 'true' ? listUntaggedPeople(limit) : listAllPeople(limit));
 });
 
 app.patch('/api/people/:id/tag', (req, res) => {

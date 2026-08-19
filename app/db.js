@@ -89,6 +89,20 @@ export function getSubmission(id) {
   return db.prepare('SELECT * FROM audio_submissions WHERE submission_id = ?').get(id);
 }
 
+/** Everyone, tagged or not. This is what /api/people returns without a filter. */
+export function listAllPeople(limit = 100) {
+  return db.prepare(`
+    SELECT p.person_id, p.full_name, p.city, p.skill_category,
+           COALESCE(GROUP_CONCAT(s.canonical_name, ', '), '') AS skills
+    FROM people p
+    LEFT JOIN person_skills ps USING (person_id)
+    LEFT JOIN skills s USING (skill_id)
+    GROUP BY p.person_id
+    ORDER BY p.person_id
+    LIMIT ?
+  `).all(limit);
+}
+
 /** Task 2 support: people the LLM flow has not categorised yet. */
 export function listUntaggedPeople(limit = 100) {
   return db.prepare(`
