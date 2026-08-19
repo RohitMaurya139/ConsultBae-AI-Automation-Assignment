@@ -1,0 +1,69 @@
+<%- include('partials/head', { title: 'Submit a recording', stats }) %>
+
+<h1>Submit a recording</h1>
+
+<% if (error) { %>
+  <p class="alert error"><%= error %></p>
+<% } %>
+
+<% if (result) { %>
+  <div class="alert ok">
+    <strong>Saved.</strong>
+    <%= result.created
+        ? 'You were not in the database yet, so a new person record was created.'
+        : 'Matched to an existing person record (#' + result.personId + ') by phone number.' %>
+  </div>
+
+  <h2>Extracted properties</h2>
+  <table class="props">
+    <tr><th>Duration</th><td><%= result.props.duration_sec ?? '—' %> s</td></tr>
+    <tr><th>Sample rate</th><td><%= result.props.sample_rate_hz ? (result.props.sample_rate_hz / 1000) + ' kHz' : '—' %></td></tr>
+    <tr><th>Bitrate</th><td><%= result.props.bitrate_kbps ?? '—' %> kbps <span class="muted">(<%= result.props.bitrate_source %>)</span></td></tr>
+    <tr><th>Loudness</th><td><%= result.props.loudness_dbfs ?? '—' %> dBFS</td></tr>
+    <tr class="bonus"><th>Integrated loudness</th><td><%= result.props.loudness_lufs ?? '—' %> LUFS</td></tr>
+    <tr class="bonus"><th>Peak</th><td><%= result.props.peak_dbfs ?? '—' %> dBFS</td></tr>
+    <tr class="bonus"><th>Noise floor</th><td><%= result.props.noise_floor_dbfs ?? '—' %> dBFS</td></tr>
+    <tr class="bonus"><th>Signal-to-noise</th><td><%= result.props.snr_db ?? '—' %> dB</td></tr>
+    <tr class="bonus"><th>Clipping</th><td><%= result.props.clipping_pct ?? '—' %> %</td></tr>
+    <tr class="bonus"><th>Quality estimate</th><td><strong><%= result.props.quality_label ?? '—' %></strong></td></tr>
+    <tr><th>Channels / codec</th><td><%= result.props.channels ?? '—' %> ch, <%= result.props.codec ?? '—' %></td></tr>
+  </table>
+
+  <audio controls src="/audio/<%= result.submissionId %>"></audio>
+  <p><a href="/submissions">See all submissions &rarr;</a></p>
+  <hr>
+<% } %>
+
+<form method="post" action="/submit" enctype="multipart/form-data" id="form">
+  <label>
+    Your name
+    <input name="name" required autocomplete="name" placeholder="Priya Singh">
+  </label>
+
+  <label>
+    Phone number
+    <input name="phone" required inputmode="tel" placeholder="9000000287 or +91 90000 00287">
+    <small class="muted">Any format. It is normalised the same way the merge pipeline does, so you get linked to your existing record.</small>
+  </label>
+
+  <fieldset>
+    <legend>Record in the browser</legend>
+    <div class="row">
+      <button type="button" id="rec">Start recording</button>
+      <button type="button" id="stop" disabled>Stop</button>
+      <span id="status" class="muted">not recording</span>
+    </div>
+    <audio id="preview" controls hidden></audio>
+  </fieldset>
+
+  <fieldset>
+    <legend>&hellip;or upload a file</legend>
+    <input type="file" name="audio" id="file" accept="audio/*">
+  </fieldset>
+
+  <button type="submit" id="send">Submit</button>
+</form>
+
+<script src="/static/recorder.js"></script>
+
+<%- include('partials/foot', { stats }) %>

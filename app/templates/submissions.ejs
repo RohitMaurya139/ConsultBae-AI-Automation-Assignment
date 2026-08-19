@@ -1,0 +1,79 @@
+<%- include('partials/head', { title: 'All submissions', stats }) %>
+
+<h1>All submissions <span class="muted">(<%= rows.length %>)</span></h1>
+
+<% if (!rows.length) { %>
+  <p class="muted">Nothing submitted yet. <a href="/">Record something</a>.</p>
+<% } else { %>
+<div class="scroll">
+<table class="grid">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Play</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Linked person</th>
+      <th>Duration</th>
+      <th>Sample rate</th>
+      <th>Bitrate</th>
+      <th>Loudness</th>
+      <th>LUFS</th>
+      <th>Peak</th>
+      <th>Noise floor</th>
+      <th>SNR</th>
+      <th>Clip %</th>
+      <th>Quality</th>
+      <th>Codec</th>
+      <th>Size</th>
+      <th>Submitted</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% for (const r of rows) { %>
+    <tr>
+      <td><%= r.submission_id %></td>
+      <td><audio controls preload="none" src="/audio/<%= r.submission_id %>"></audio></td>
+      <td><%= r.submitted_name %></td>
+      <td class="num"><%= r.submitted_phone %></td>
+      <td>
+        <% if (r.matched_name) { %>
+          <%= r.matched_name %> <span class="muted">#<%= r.person_id %></span>
+          <% if (r.city) { %><br><span class="muted"><%= r.city %></span><% } %>
+        <% } else { %>
+          <span class="muted">unlinked</span>
+        <% } %>
+      </td>
+      <td class="num"><%= r.duration_sec ?? '—' %> s</td>
+      <td class="num"><%= r.sample_rate_hz ? (r.sample_rate_hz / 1000) + ' kHz' : '—' %></td>
+      <td class="num"><%= r.bitrate_kbps ?? '—' %></td>
+      <td class="num"><%= r.loudness_dbfs ?? '—' %></td>
+      <td class="num"><%= r.loudness_lufs ?? '—' %></td>
+      <td class="num"><%= r.peak_dbfs ?? '—' %></td>
+      <td class="num"><%= r.noise_floor_dbfs ?? '—' %></td>
+      <td class="num"><%= r.snr_db ?? '—' %></td>
+      <td class="num"><%= r.clipping_pct ?? '—' %></td>
+      <td>
+        <% const q = r.quality_label ?? ''; %>
+        <span class="pill <%= q.startsWith('good') ? 'good' : q.startsWith('poor') ? 'poor' : q.startsWith('unknown') ? 'unk' : 'fair' %>"><%= q || '—' %></span>
+      </td>
+      <td><%= r.codec ?? '—' %></td>
+      <td class="num"><%= r.size_bytes ? (r.size_bytes / 1024).toFixed(0) + ' KB' : '—' %></td>
+      <td class="muted"><%= r.created_at %></td>
+    </tr>
+    <% if (r.analysis_error) { %>
+      <tr class="errrow"><td></td><td colspan="17">analysis error: <%= r.analysis_error %></td></tr>
+    <% } %>
+  <% } %>
+  </tbody>
+</table>
+</div>
+
+<p class="muted">
+  Loudness is dBFS (0 = full scale, more negative = quieter). LUFS is the EBU R128
+  perceptual figure. SNR is the gap between the loudest and quietest tenth of
+  20&nbsp;ms frames &mdash; it only means anything when the recording contains pauses.
+</p>
+<% } %>
+
+<%- include('partials/foot', { stats }) %>
