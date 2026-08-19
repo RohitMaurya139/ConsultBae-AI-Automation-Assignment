@@ -10,7 +10,7 @@
     "pipeline": "node pipeline/run.js",
     "start": "node app/server.js",
     "dev": "node --watch app/server.js",
-    "test": "node --test tests/",
+    "test": "node --test tests/*.test.js",
     "n8n": "npx n8n start"
   },
   "license": "MIT",
