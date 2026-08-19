@@ -31,7 +31,7 @@
             {
               "id": "cfg-3",
               "name": "batchLimit",
-              "value": 50,
+              "value": 10,
               "type": "number"
             }
           ]
@@ -43,7 +43,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [-420, 300],
-      "notes": "Change apiBaseUrl to your ngrok URL if n8n runs in the cloud."
+      "notes": "apiBaseUrl: swap for your ngrok URL if n8n runs in the cloud. batchLimit: how many people get tagged per run - 10 keeps a demo short, raise it to cover everyone in one pass."
     },
     {
       "parameters": {
