@@ -1,0 +1,34 @@
+[
+  {
+    "reason": "ambiguous_name_match",
+    "nameCity": "arjun mehta / Noida",
+    "candidates": [
+      [
+        "source1_naukri_applicants.csv:20",
+        "source3_cbnexus_contacts.csv:5"
+      ],
+      [
+        "source2_gig_workers.csv:18"
+      ],
+      [
+        "source3_cbnexus_contacts.csv:28"
+      ]
+    ],
+    "detail": "3 distinct people share the name+city \"arjun mehta / Noida\", one of which already has both an email and a phone. Name+city cannot discriminate between them."
+  },
+  {
+    "reason": "same_name_different_city",
+    "nameCity": "deepak nair / Bengaluru vs Delhi",
+    "candidates": [
+      [
+        "source1_naukri_applicants.csv:33",
+        "source2_gig_workers.csv:15",
+        "source3_cbnexus_contacts.csv:25"
+      ],
+      [
+        "source2_gig_workers.csv:32"
+      ]
+    ],
+    "detail": "2 people named \"deepak nair\" in different cities. Treated as different people - a name alone is not evidence of identity."
+  }
+]
