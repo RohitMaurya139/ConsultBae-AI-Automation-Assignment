@@ -66,9 +66,12 @@ async function probe(filePath) {
 
   // Bitrate: prefer what the file declares. WebM/Opus from MediaRecorder very
   // often declares nothing, so fall back to the only thing that is always true -
-  // total bits divided by total seconds.
+  // total bits divided by total seconds. Both can be null when the container
+  // also declares no duration; guard that below rather than dividing null by
+  // 1000, which is 0 in JavaScript and reads as a real measurement.
   const declared = Number(audio.bit_rate ?? info.format?.bit_rate ?? 0) || null;
   const derived = duration && sizeBytes ? (sizeBytes * 8) / duration : null;
+  const bitrate = declared ?? derived;
 
   return {
     duration_sec: round(duration, 3),
@@ -76,8 +79,8 @@ async function probe(filePath) {
     channels: Number(audio.channels) || null,
     codec: audio.codec_name ?? null,
     size_bytes: sizeBytes,
-    bitrate_kbps: round((declared ?? derived) / 1000, 1),
-    bitrate_source: declared ? 'declared' : (derived ? 'derived from size/duration' : 'unknown'),
+    bitrate_kbps: bitrate === null ? null : round(bitrate / 1000, 1),
+    bitrate_source: declared ? 'declared' : (derived ? 'derived from size/duration' : null),
   };
 }
 
@@ -231,11 +234,28 @@ export async function analyzeAudio(filePath) {
 
   let signal = null;
   let signalError = null;
+  let decodedSeconds = null;
   try {
-    signal = measure(await decodePcm(filePath));
+    const pcm = await decodePcm(filePath);
+    // The decoded stream always knows its own length. This is the one duration
+    // that exists even when the container declares none.
+    if (pcm.length) decodedSeconds = pcm.length / ANALYSIS_RATE;
+    signal = measure(pcm);
     if (!signal) signalError = 'decoded to zero samples';
   } catch (e) {
     signalError = `decode failed: ${e.message.split('\n')[0]}`;
+  }
+
+  // A WebM from MediaRecorder is written as a live stream, so it usually carries
+  // no duration in its header and ffprobe returns null - taking bitrate down
+  // with it. Duration is one of the four properties this app exists to report,
+  // so fall back to the decoded length instead of reporting nothing.
+  if (meta.duration_sec === null && decodedSeconds) {
+    meta.duration_sec = round(decodedSeconds, 3);
+    if (meta.bitrate_kbps === null && meta.size_bytes) {
+      meta.bitrate_kbps = round((meta.size_bytes * 8) / decodedSeconds / 1000, 1);
+      meta.bitrate_source = 'derived from size/duration';
+    }
   }
 
   const lufs = await integratedLufs(filePath);
