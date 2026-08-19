@@ -1,0 +1,29 @@
+{
+  "name": "consultbae-ai-automation-assignment",
+  "version": "1.0.0",
+  "description": "Merge 3 messy people-databases into one, automate on top with n8n, and collect audio with extracted properties.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "pipeline": "node pipeline/run.js",
+    "start": "node app/server.js",
+    "dev": "node --watch app/server.js",
+    "test": "node --test tests/",
+    "n8n": "npx n8n start"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "csv-parse": "^7.0.2",
+    "dayjs": "^1.11.23",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "fastest-levenshtein": "^1.0.16",
+    "ffmpeg-static": "^5.3.0",
+    "ffprobe-static": "^3.1.0",
+    "multer": "^2.2.0"
+  }
+}
